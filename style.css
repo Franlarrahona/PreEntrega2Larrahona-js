@@ -1,0 +1,90 @@
+/*FUENTE*/
+@import url('https://fonts.googleapis.com/css2?family=Lobster&family=Mooli&family=Quattrocento+Sans&family=Roboto&display=swap');
+/*font-family: 'Roboto', sans-serif;*/
+*{
+    font-family: 'Roboto', sans-serif;
+}
+
+h1{
+    text-align: center;
+}
+
+main{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.btn{
+    font-size: 25px;
+
+    padding: 10px;
+    margin: 10px;
+    margin-top: 70px;
+}
+
+.formPrestamo{
+    display: none;
+    flex-direction: column;
+    padding-top: 100px;
+
+}
+input{
+    margin: 15px;
+    width: 300px;
+    height: 30px;
+}
+
+.btnVolverStyle{
+    display: inline;
+    width: 70px;
+    background-color: red;
+    margin-top: 20px;
+    border: 2px solid ;
+    
+}
+
+
+.infoPrestamo{
+    display: block;
+    text-align: center;
+    font-size: 25px;
+    padding-top: 40px;
+    
+}
+
+.btnAceptarPrestamo{
+    display: inline;
+    font-size: 25px;
+    background-color: green;
+    border: 2px solid black;
+    margin-left: 700px;
+    margin-right: 170px ;
+    margin-top: 50px;
+
+}
+
+.confirmacionPrest{
+    
+    text-align: center;
+    display: block;
+    font-size: 25px;
+    padding-top: 40px;
+    
+}
+
+h3{
+    text-align: center;
+    margin-top: 80px;
+
+}
+
+
+.buscadorHistorial{
+    display: none;
+}
+
+.errorVerificacion{
+    text-align: center;
+}

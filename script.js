@@ -7,6 +7,19 @@ let nuevo_prestamo;
 let nombre;
 let apellido;
 
+let PrecioFinal
+let PrecioCuotas
+let interes
+
+
+let infoPrestamo
+let btnAceptarPrestamo
+let confirmacionPrest
+
+let buscadorHistorial
+let resultadosBusqueda
+
+
 
 //CLASES
 class prestamo{
@@ -22,111 +35,233 @@ class prestamo{
 
 let HistorialPrestamos = []
 
+
+//EVENTOS   
+
+let btnPedir = document.getElementById("btnPedir");
+let btnMirar = document.getElementById("btnMirar");
+let contenedorInfo = document.getElementsByClassName("contenedorInfo");
+
+let inpNombre = document.getElementById("inpNombre");
+let inpApellido = document.getElementById("inpApellido");
+let inpMonto = document.getElementById("inpMonto");
+let inpCuotas = document.getElementById("inpCuotas");
+let btnEnviar = document.getElementById("btnEnviar");
+
+let buscarNomb = document.getElementById("buscarNomb");
+let buscarApelli = document.getElementById("buscarApelli");
+let buscarHisto = document.getElementById("btnBuscarHisto")
+
+
+let btnVolver = document.getElementById("btnVolver");
+
+btnPedir.addEventListener("click",mostrarRecolector);
+btnMirar.addEventListener("click",mostrarDatos);
+btnEnviar.addEventListener("click",recolectorDatos);
+
+btnVolver.addEventListener("click",ocultarRecolector);
+
+btnBuscarHisto.addEventListener("click",compararNomb)
+
 //FUNCIONES
 
 
-//FUNCION DEL MENU 
-function menuSeleccion(){
-    console.log("selecciona lo que quieres hacer")
-    selecMenu = prompt("1 = pedir prestamo // 2 = mirar mis prestamos")
+//FUNCION MOSTRAR INFORMACION DE PRESTAMO
 
-    if(selecMenu == 1){
-        recolectorDatos();
-    }
-    else if (selecMenu == 2){
-        mostrarDatos();
-    }
-    else{
-        console.log("opcion incorrecta, reintentar");
-        volver()
-    }
+
+function mostrarInfoPrestamo(){
+
+    infoPrestamo = document.createElement("h2")
+    infoPrestamo.innerHTML = `usted a seleccionado ${num_cuotas} cuotas 
+                            <br>
+                            el precio por cuota es de: $ ${PrecioCuotas} pesos
+                            <br>
+                            el costo total del prestamo es de: $ ${PrecioFinal} pesos
+                            <br>
+                            tienes un interes de: $ ${interes} pesos`;
+    infoPrestamo.className="infoPrestamo";
+    document.body.append(infoPrestamo);
+
+    btnAceptarPrestamo = document.createElement("button");
+    btnAceptarPrestamo.innerHTML = "Confirmar Prestamo";
+    btnAceptarPrestamo.className ="btnAceptarPrestamo";
+    document.body.append(btnAceptarPrestamo);
+    btnAceptarPrestamo.addEventListener("click",confirmPrestamo)
+
+    btnVolverInfo = document.createElement("button");
+    btnVolverInfo.innerHTML = "volver";
+    btnVolverInfo.className = "btnVolverStyle";
+    btnVolverInfo.id = "btnVolverInfo"
+    document.body.append(btnVolverInfo);
+    btnVolverInfo.addEventListener("click",ocultarInfoPrestamo)
+
+
+    
+
+    console.log("usted a seleccionado:", num_cuotas, "cuotas");
+    console.log("el precio por cuota es de: $", PrecioCuotas, "pesos");
+    console.log("el costo total del prestamo es de: $",PrecioFinal, "pesos");
+    console.log("tienes un interes de: $", interes, "pesos");
+    
+
+}
+
+
+
+
+//FUNCION PARA MOSTRAR EL FORMULARIO DE PRESTAMOS
+
+function mostrarRecolector(){
+
+
+    let formPrestamo = document.querySelector(".formPrestamo");
+    formPrestamo.style. display = "flex"
+
+
+    ocultarBuscadorHistorial();
+    ocultarInfoPrestamo();
+    ocultarConfirmacionPrest();
+    
+}
+
+//FUNCION PARA OCULTAR EL HISTORIAL
+function ocultarHistorial(){
+    resultadosBusqueda.remove();
+}
+
+//FUNCION PARA OCULTAR BUSCADOR DE HISTORIAL
+
+function ocultarBuscadorHistorial(){
+
+    buscadorHistorial = document.querySelector(".buscadorHistorial");
+    buscadorHistorial.style. display = "none"
+
+}
+
+//FUNCION PARA OCULTAR FORMULARIO DE PRESTAMOS
+
+function ocultarRecolector(){
+
+    let formPrestamo = document.querySelector(".formPrestamo")
+    formPrestamo.style. display = "none"
+    
+
+}
+
+//FUNCION PARA OCULTAR INFORMACION DE PRESTAMOS 
+
+function ocultarInfoPrestamo(){
+    infoPrestamo.remove()
+    btnAceptarPrestamo.remove()
+    btnVolverInfo.remove()
+    
+}
+
+//FUNCION PARA OCULTAR LA CONFIRMACION DEL PRESTAMO
+
+function ocultarConfirmacionPrest(){
+    confirmacionPrest.remove()
 }
 
 
 //FUNCION RECOLECTORA DE DATOS
+
 function recolectorDatos(){
+
+    let formPrestamo = document.querySelector(".formPrestamo")
+    formPrestamo.style. display = "none"
+
+
+
+    nombre = inpNombre.value ;
+    apellido = inpApellido.value ;
+
+    dinero_pedido = inpMonto.value ;
+    dinero_pedido = parseInt(dinero_pedido) ;
+
+
+    num_cuotas = inpCuotas.value ;
+    num_cuotas = parseInt (num_cuotas);
     
-    nombre = prompt("escriba su nombre a continuacion");
-    apellido = prompt("ahora su apellido");
+    
+    
+    
+    console.log (nombre , apellido , dinero_pedido , num_cuotas)
+    
     
 
-    dinero_pedido = prompt("¿cuanto es el monto que quieres pedir?");
-    dinero_pedido = parseInt(dinero_pedido);
-
-
-    console.log("usted a ingresado", dinero_pedido,"pesos");
-    num_cuotas = prompt("¿en cuantas cuotas quieres devolverlo? 1/3/6/12/24");
+    CalculoCuotas(num_cuotas);
 
     nuevo_prestamo = new prestamo(nombre , apellido, dinero_pedido , num_cuotas);
     HistorialPrestamos.push(nuevo_prestamo);
-    
-    selectorCuotas();
 
+    console.log(HistorialPrestamos)
+    
 }
-//FUNCION MOSTRAR HISTORIAL DE PRESTAMOS
+//FUNCION COMPARADORA DE NOMBRES
 
-function mostrarDatos(){
-    console.log("usted a seleccionado ver su historial de prestamos");
+function compararNomb(){
 
-    let nombre_buscador = prompt("porfavor escriba su nombre");
-    let apellido_buscador = prompt("escriba su apellido");
-    
+    let nombre_buscador = buscarNomb.value;
+    let apellido_buscador = buscarApelli.value;
+
+    //console.log(nombre_buscador , apellido_buscador)
+
     let resultado_filter = HistorialPrestamos.filter(()=> {return nombre == nombre_buscador && apellido == apellido_buscador})
     if(nombre != nombre_buscador || apellido != apellido_buscador){
+
+        let errorVerificacion = document.createElement("h2")
+        errorVerificacion.innerHTML = "Los datos ingresados no corresponden a un prestamo, intentar de nuevo";
+        errorVerificacion.className ="errorVerificacion";
+        document.body.append(errorVerificacion);
+
         console.log("datos ingresados incorrectos, reintentar");
-        volver();
+
+
     }
     else if (nombre == nombre_buscador && apellido == apellido_buscador){
         resultado_filter.forEach(mostrarResultados);
         HistorialPrestamos = [];
-        volver() 
     }
-
+    
     function mostrarResultados(data){
+        
+        resultadosBusqueda = document.createElement("h3");
+        resultadosBusqueda.innerHTML = `-Nombre: ${data.nombre} | Apellido: ${data.apellido} | Dinero Solicitado:$ ${data.dinero_pedido} | Cantidad de Cuotas: ${data.num_cuotas} cuotas`
+        resultadosBusqueda.className = "resultadosBusqueda";
+        document.body.append(resultadosBusqueda);
+
+
     console.log("<-------------------------->")
-    console.log("|NOMBRE:",data.nombre,"|APELLIDO:",data.apellido,"DINERO SOLICITADO:$", data.dinero_pedido, "|CANTIDAD DE CUOTAS:", data.num_cuotas,"CUOTAS|");
+    console.log(`|NOMBRE:",data.nombre,"|APELLIDO:",data.apellido,"DINERO SOLICITADO:$", data.dinero_pedido, "|CANTIDAD DE CUOTAS:", data.num_cuotas,"CUOTAS|`);
     console.log("");
     }
 
-    
 }
 
 
-//FUNCION SELECTOR DE CUOTAS
-function selectorCuotas(){
-    if(num_cuotas == 1){
-        CalculoCuotas(1);
-        confirPrestamo()
-    }
-    
-    else if(num_cuotas == 3){
-        CalculoCuotas(3);
-        confirPrestamo()
-    }
-    
-    else if(num_cuotas == 6){
-        CalculoCuotas(6);
-        confirPrestamo()
-    }
-    else if(num_cuotas == 12){
-        CalculoCuotas(12);
-        confirPrestamo()
-    }
-    else if(num_cuotas == 24){
-        CalculoCuotas(24);
-        confirPrestamo()
-    }
-    else{
-        console.log("usted a ingresado una opcion incorrecta");
-        console.log("recargue pagina y reintentelo");
-        volver()
-    }
-}
+//FUNCION BUSCAR HISTORIAL DE PRESTAMOS
 
+function mostrarDatos(){
+    console.log("usted a seleccionado ver su historial de prestamos");
+
+    buscadorHistorial = document.querySelector(".buscadorHistorial");
+    buscadorHistorial.style. display = "inline"
+    
+    btnBuscarHisto.addEventListener("click", compararNomb)
+
+
+
+    ocultarConfirmacionPrest();
+    ocultarRecolector();
+    ocultarInfoPrestamo();
+
+    
+}
 
 //FUNCION CALCULADORA DE CUOTAS
 function CalculoCuotas(num_cuotas_funcion){
-    let interes
+    
     interes = parseInt(interes)
 
     if(num_cuotas_funcion == 1){
@@ -148,48 +283,37 @@ function CalculoCuotas(num_cuotas_funcion){
         console.log("error en ejecucion de funcion")
     }
     
-    let PrecioFinal=  dinero_pedido + interes;
-    let PrecioCuotas= PrecioFinal / num_cuotas;
-    console.log("usted a seleccionado:", num_cuotas, "cuotas");
-    console.log("el precio por cuota es de: $", PrecioCuotas, "pesos");
-    console.log("el costo total del prestamo es de: $",PrecioFinal, "pesos");
-    console.log("tienes un interes de: $", interes, "pesos");
+    PrecioFinal=  dinero_pedido + interes;
+    PrecioCuotas= PrecioFinal / num_cuotas;
+
+    mostrarInfoPrestamo()
+
+    
 }
 
 
 //FUNCION DE CONFIRMACION DE PRESTAMO
-function confirPrestamo(){
-    console.log("¿quieres confirmar prestamo?");
-    let ConfirmarPrestamo = prompt("si= confirmar prestamo / no= cancelar prestamo");
-    
-    if(ConfirmarPrestamo == "si"){
-        console.log("felicitaciones, usted a adiquirido un prestamo");
-        console.log(" el dinero se depositara a su cuenta en la brevedad");
-        volver()
-    }
-    else if(ConfirmarPrestamo == "no"){
-        console.log("prestamo cancelado")
-        volver()
-    }
-    else{
-        console.log("opcion inexistente, reintentelo")
-    }
+function confirmPrestamo(){
+    console.log("prestamo confirmado")
+
+    ocultarInfoPrestamo()
+
+
+    confirmacionPrest = document.createElement("h2")
+    confirmacionPrest.innerHTML =`El prestamo de $ ${dinero_pedido} pesos de ${apellido},${nombre} ha sido aceptado.
+                                <br>
+                                Sera enviado a su cuenta bancaria a la brevedad.
+                                <br>
+                                gracias por usar simulado de prestamos.com`
+    confirmacionPrest.className = "confirmacionPrest"
+    document.body.append(confirmacionPrest)
 }
-
-
-//FUNCION VOLVER AL INICIO
-function volver(){
-    repetir = prompt("quieres volver al inicio? si / no");
-}
-
 
 //CICLO DEL PROGRAMA
 
-console.log("Bienvenido al simulador de prestamos");
-console.log("para comenzar complete los datos solicitados");
 
 do{
-menuSeleccion();
+
 
 }while(repetir == "si");
 

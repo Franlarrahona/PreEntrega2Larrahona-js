@@ -3,9 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>proyecto_1</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>simulador de prestamos</title>
 </head>
 <body>
+    <header>
+    <h1>SIMULADOR DE PRESTAMOS</h1>
+    </header>
+    <main>
+        <section>
+            <button class="btn" id="btnPedir">pedir un prestamo</button>
+            <button class="btn" id="btnMirar">mirar mis prestamos</button>
+        </section>
+        <div class="formPrestamo">
+            
+            <h2> porfavor complete el formulario</h2>
+            <input type="text"  type="required" placeholder="Nombre" id="inpNombre" name="nombre">
+            <input type="text" type="required" placeholder="Apellido" id="inpApellido">
+            <input type="text" type="required" placeholder="Monto"  id="inpMonto">
+            <input type="number" type="required" placeholder="cuotas" min="0" max="24" list="cantCuotas" id="inpCuotas">
+            <button type="submit" class="btn" id="btnEnviar">Enviar</button>
+            <button id="btnVolver" class="btnVolverStyle">volver</button>
+            
+            <datalist id="cantCuotas">
+                <option value="1"></option>
+                <option value="3"></option>                
+                <option value="6"></option>
+                <option value="12"></option>
+                <option value="24"></option>
+            </datalist>
+        </div>
+
+        <div class="buscadorHistorial">
+            <h3>Complete los siguientes campos</h3>
+            <input type="text" type="requiered" placeholder="Nombre" id="buscarNomb">
+            <input type="text" type="requiered" placeholder="Apellido" id="buscarApelli">
+            <button id="btnBuscarHisto">Buscar</button>
+
+        </div>
+
+        <div class="contenedorInfo""></div>
+    </main>
     <script src="script.js"></script>
 </body>
 </html>
